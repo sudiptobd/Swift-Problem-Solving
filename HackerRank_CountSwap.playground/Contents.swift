@@ -16,6 +16,3 @@ func countSwaps(a: [Int]) -> Void {
     print("First Element: \(a[0])")
     print("Last Element: \(a[n-1])")
 }
-
-
-
