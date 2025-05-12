@@ -2,14 +2,29 @@ import Foundation
 
 class Stack<T> {
     var ara: [T]
-    init() { self.ara = [] }
-    func top() -> T? { return ara.last }
-    func isEmpty() -> Bool { return ara.isEmpty }
-    func size () -> Int { return ara.count }
-    func push(_ x: T) { ara.append(x) }
+    init() {
+        self.ara = []
+    }
+    
+    func push(_ x: T) {
+        ara.append(x)
+    }
+    
     func pop() -> T? {
         guard !ara.isEmpty else { return nil }
         return ara.removeLast()
+    }
+    
+    func top() -> T? {
+        return ara.last
+    }
+    
+    func isEmpty() -> Bool {
+        return ara.isEmpty
+    }
+    
+    func size () -> Int {
+        return ara.count
     }
 }
 
@@ -27,20 +42,17 @@ class Stack<T> {
  }
  
 class Solution {
-    func dfs(_ root: TreeNode?, balanced: inout Bool) -> Int {
-        if root == nil || !balanced { return 0 }
-        let left = dfs(root?.left, balanced: &balanced)
-        let right = dfs(root?.right, balanced: &balanced)
-        if left - right < -1 || left - right > 1 {
-            balanced = false
-        }
-        return max(left,right) + 1
+    func goodNodes(_ root: TreeNode?) -> Int {
+        dfs(node: root, max: root?.val ?? 0)
     }
     
-    func isBalanced(_ root: TreeNode?) -> Bool {
-        var balanced = true
-        _ = dfs(root, balanced: &balanced)
-        return balanced
+    func dfs(node: TreeNode?, max: Int) -> Int {
+        guard let node else { return 0 }
+        if max <= node.val {
+            return 1 + dfs(node: node.left, max: node.val) + dfs(node: node.right, max: node.val)
+        } else {
+            return dfs(node: node.left, max: max) + dfs(node: node.right, max: max)
+        }
     }
 }
 
@@ -59,5 +71,5 @@ rootx.left?.left = TreeNode(4)
 rootx.left?.right = TreeNode(2)
 
 let s = Solution()
-s.isBalanced(root)
-s.isBalanced(rootx)
+s.goodNodes(root)
+s.goodNodes(rootx)
