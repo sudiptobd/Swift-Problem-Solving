@@ -13,6 +13,8 @@ class Stack<T> {
     }
 }
 
+
+
  public class TreeNode {
      public var val: Int
      public var left: TreeNode?
@@ -27,37 +29,66 @@ class Stack<T> {
  }
  
 class Solution {
-    func dfs(_ root: TreeNode?, balanced: inout Bool) -> Int {
-        if root == nil || !balanced { return 0 }
-        let left = dfs(root?.left, balanced: &balanced)
-        let right = dfs(root?.right, balanced: &balanced)
-        if left - right < -1 || left - right > 1 {
-            balanced = false
+    
+    class Queue<T> {
+        var ara: [T]
+        init() { self.ara = [] }
+        func top() -> T? { return ara.first }
+        func isEmpty() -> Bool { return ara.isEmpty }
+        func size () -> Int { return ara.count }
+        func push(_ x: T) { ara.append(x) }
+        func pop() -> T? {
+            guard !ara.isEmpty else { return nil }
+            return ara.removeFirst()
         }
-        return max(left,right) + 1
     }
     
-    func isBalanced(_ root: TreeNode?) -> Bool {
-        var balanced = true
-        _ = dfs(root, balanced: &balanced)
-        return balanced
+    func invertTree(_ root: TreeNode?) -> TreeNode? {
+        if root == nil { return nil }
+        let right = root?.right
+        root?.right = invertTree(root?.left)
+        root?.left = invertTree(right)
+        return root
+    }
+    
+    func invertTreex(_ root: TreeNode?) -> TreeNode? {
+        let q = Queue<TreeNode?>()
+        q.push(root)
+        while !q.isEmpty() {
+            if let node = q.pop() {
+                let l = node?.left
+                let r = node?.right
+                node?.right = l
+                node?.left = r
+                
+                if let l = l {
+                    q.push(l)
+                }
+                if  let r = r {
+                    q.push(r)
+                }
+            }
+            
+        }
+        return root
     }
 }
 
-let root = TreeNode(3)
+let root = TreeNode(2)
 root.left = TreeNode(1)
-root.right = TreeNode(4)
-root.left?.left = TreeNode(3)
-root.left?.right = nil
-root.right?.left = TreeNode(1)
-root.right?.right = TreeNode(5)
+root.right = TreeNode(3)
 
-let rootx = TreeNode(3)
-rootx.left = TreeNode(3)
-rootx.right = nil
-rootx.left?.left = TreeNode(4)
-rootx.left?.right = TreeNode(2)
+dfs(root)
 
-let s = Solution()
-s.isBalanced(root)
-s.isBalanced(rootx)
+let invertTree = Solution().invertTree(root)
+
+func dfs (_ node: TreeNode?) {
+    if let node = node {
+        print(node.val, terminator: " ")
+        dfs(node.left)
+        dfs(node.right)
+    }
+}
+
+dfs(invertTree)
+
