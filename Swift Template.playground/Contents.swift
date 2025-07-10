@@ -145,49 +145,6 @@ for i in stride(from: 0, to: str.count, by: 1) {
 
 
 
-//var x = [10, 11, 12]
-//var y = Person(name: "Hello")
-//var z = Person(name: "Bello")
-//address(of: &x)
-//address(of: &y)
-//address(of: &z)
-//
-//func fib() -> Int {
-//    var a = 1
-//    var b = 1
-//    var sum = 0
-//    while a+b <= 4000000 {
-//        let c = a + b
-//        a = b
-//        b = c
-//        if b % 2 == 0 {
-//            sum += b
-//        }
-//    }
-//    return sum
-//}
-//
-//@propertyWrapper
-//struct Hello {
-//    var value: String
-//    init(wrappedValue: String) {
-//        self.value = wrappedValue.uppercased()
-//    }
-//
-//    var wrappedValue: String {
-//        get { value }
-//        set { value = newValue.uppercased() }
-//    }
-//}
-//
-//struct A {
-//    @Hello
-//    var x: String
-//}
-//
-//var a = A(x: "abcd")
-
-
 extension Int {
     mutating func increment( by value: Int) {
         self += value
