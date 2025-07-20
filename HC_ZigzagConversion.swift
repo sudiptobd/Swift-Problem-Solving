@@ -38,6 +38,12 @@ class Solution {
         for i in 0..<numRows {
             all.append(contentsOf:dict[i] ?? [])
         }
+        for i in stride(from: 0, through: n, by: <#T##Int#>) {
+            
+        }
         return String(all) ?? ""
     }
 }
+
+
+

@@ -156,3 +156,29 @@ dict[1, default: 0].increment(by: 1)
 dict[1, default: 0].increment(by: 1)
 
 print(dict)
+
+func isValid(s: String) -> String {
+    // Write your code here
+    let sets = Set(s)
+    return String(sets)
+}
+
+let ara = [Int](repeating: 0, count: 1)
+
+isValid(s: "bcacda")
+
+func k(max: Int) {
+    
+    
+}
+
+let x: Int = Int(Character("a").asciiValue ?? 0)
+if let sc = UnicodeScalar(x) {
+    let c = Character(sc)
+}
+
+var dicts:[String:Int] = [:]
+let value = dicts["A", default: 0]
+print(dicts, value)
+let c = Character("A")
+print(c.is)
