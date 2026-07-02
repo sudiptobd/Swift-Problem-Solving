@@ -1,17 +1,40 @@
 import Foundation
 
-class Stack<T> {
-    var ara: [T]
-    init() { self.ara = [] }
-    func top() -> T? { return ara.last }
-    func isEmpty() -> Bool { return ara.isEmpty }
-    func size () -> Int { return ara.count }
-    func push(_ x: T) { ara.append(x) }
-    func pop() -> T? {
-        guard !ara.isEmpty else { return nil }
-        return ara.removeLast()
-    }
-}
+//let a = [1,2,3,4,5]
+//let sum = a.reduce(0) { partialResult, value in
+//    partialResult + value
+//}
+
+
+
+let s: String = "a"
+let c: Character = Character(s)
+let n: Int = Int(c.asciiValue!)
+let sc = UnicodeScalar(n)!
+let cs: Character = Character(sc)
+let d: Double = Double(n)
+let id: Int = Int(d)
+var set = Set<[Int]>()
+set.insert([1,2,3])
+set.insert([2,1,3])
+set.remove([2,1,4])
+
+set.contains([1,2,3])
+var array = Array(set)
+array += [[123]]
+array.append([234])
+array.append(contentsOf:[[234]])
+let last = array.removeLast()
+let first = array.removeFirst()
+
+
+//print(array)
+let string = "abcdef"
+let x = string.split(separator: "c", omittingEmptySubsequences: true)
+var sx: String = String(x.first!)
+sx += "x"
+let index = string.index(string.startIndex, offsetBy: 1)
+let substring = string[string.startIndex...index]
 
 class Queue<T> {
     var ara: [T]
@@ -26,113 +49,84 @@ class Queue<T> {
     }
 }
 
- public class TreeNode {
-     public var val: Int
-     public var left: TreeNode?
-     public var right: TreeNode?
-     public init() { self.val = 0; self.left = nil; self.right = nil; }
-     public init(_ val: Int) { self.val = val; self.left = nil; self.right = nil; }
-     public init(_ val: Int, _ left: TreeNode?, _ right: TreeNode?) {
-         self.val = val
-         self.left = left
-         self.right = right
-     }
+class Stack<T> {
+    var ara: [T]
+    init() { self.ara = [] }
+    func top() -> T? { return ara.last }
+    func isEmpty() -> Bool { return ara.isEmpty }
+    func size () -> Int { return ara.count }
+    func push(_ x: T) { ara.append(x) }
+    func pop() -> T? {
+        guard !ara.isEmpty else { return nil }
+        return ara.removeLast()
+    }
+}
+
+
+//88. Merge Sorted Array
+func merge(_ nums1: inout [Int], _ m: Int, _ nums2: [Int], _ n: Int) {
+    var i = m - 1
+    var j = n - 1
+    var k = m + n - 1
+    while k >= 0 {
+        if i >= 0 , j >= 0 {
+            nums1[k] = max(nums1[i], nums2[j])
+            if nums1[i] > nums2[j] {
+                i -= 1
+            } else {
+                j -= 1
+            }
+        } else if i >= 0 {
+            nums1[k] = nums1[i]
+            i -= 1
+        } else {
+            nums1[k] = nums2[j]
+            j -= 1
+        }
+        k -= 1
+    }
+}
+
+// Think from backward
+// Start i = m - 1, j = n - 1, k = m+n-1
+// while k >= 0 // <<<<<  k = m + n times
+// put nums1[k] = max(nums1[i], nums[j])
+// decrease i, j, k
+
+
+//Given an unordered array of integers, return a list of Leaders, where leader is an integer that is strictly greater than all elements to its right. The rightmost element is always included.
+//Input:  [16, 17, 4, 3, 5, 2]
+//Output: [(17, 5, 2]
+
+func leaders(_ nums: [Int]) -> [Int] {
+    var ans: [Int] = []
+    let n = nums.count
+    var i = n - 1
+    var maxElement = 0
+    
+    while i >= 0 {
+        let element = nums[i]
+        if element > maxElement {
+            ans.append(element)
+            maxElement = element
+        }
+        i -= 1
+    }
+    
+    return ans.reversed()
  }
 
-func address<T>(of value: inout T) -> String {
-    withUnsafePointer(to: &value) {
-        .init(format: "0x%lx", Int(bitPattern: $0))
-    }
-}
+print(leaders( [16, 17, 4, 3, 5, 2]))
 
- 
-class Solution {
-    var dp = [Int](repeating: -1, count: 101)
-    func rob(_ nums: [Int]) -> Int {
-        return helper(nums, 0)
-    }
-    
-    func helper(_ nums: [Int], _ index: Int) -> Int {
-        if index >= nums.count {
-            return 0
-        }
-        
-        if dp[index] >= 0 {
-            return dp[index]
-        } else {
-            dp[index] = max(helper(nums, index+2) + nums[index], helper(nums, index + 1))
-        }
-        return dp[index]
-    }
-}
+// store leaders
+// consider 1st one is leader
+// loop to right < n
+    // checking if found greater number
+    // break if not a leader
 
+// if leader store to leaders
 
-func minCuttingCost(_ n: Int, _ m: Int, _ k: Int) -> Int {
-    var cost = 0
-    if n > k && m > k {
-        cost += (n-k)*k
-        cost += (m-k)*k
-    } else if n > k {
-        if m == k {
-            cost += (n-k)*k
-        } else if m < k {
-            let firstCut = k-m
-            let secondCut = n-k
-            var sum1 = (n-firstCut)*firstCut
-            var sum2 = (n-secondCut)*secondCut
-            var newM = n - firstCut
-            if newM > k {
-                sum1 += (newM-k)*k
-            }
-            
-            newM = n - secondCut
-            if newM > k {
-                sum2 += (newM-k)*k
-            }
-            cost += min(sum1, sum2)
-        }
-    } else if m > k {
-        if n == k {
-            cost += (m-k)*k
-        } else if n < k {
-            let firstCut = k-n
-            let secondCut = m-k
-            var sum1 = (m-firstCut)*firstCut
-            var sum2 = (m-secondCut)*secondCut
-            var newM = m - firstCut
-            if newM > k {
-                sum1 += (newM-k)*k
-            }
-            
-            newM = m - secondCut
-            if newM > k {
-                sum2 += (newM-k)*k
-            }
-            cost += min(sum1, sum2)
-        }
-    }
-    
-    return cost
-}
-
-
-//minCuttingCost(11, 4, 5)
-//minCuttingCost(4, 4, 6)
-//minCuttingCost(4, 1, 2)
-
-
-let root = TreeNode(2)
-root.left = TreeNode(1)
-root.right = TreeNode(3)
-
-let solutions = Solution()
-print("Hello World")
-
-var str = "Hello World"
-for i in stride(from: 0, to: str.count, by: 1) {
-    let x = str[str.index(str.startIndex, offsetBy: i)]
-    str.append(x)
-}
+// return
 
 
 
@@ -140,45 +134,5 @@ for i in stride(from: 0, to: str.count, by: 1) {
 
 
 
-
-//print(solutions.rob([1,2,3,1]))
-
-
-
-extension Int {
-    mutating func increment( by value: Int) {
-        self += value
-    }
-}
-
-var dict = [Int: Int]()
-dict[1, default: 0].increment(by: 1)
-dict[1, default: 0].increment(by: 1)
-
-print(dict)
-
-func isValid(s: String) -> String {
-    // Write your code here
-    let sets = Set(s)
-    return String(sets)
-}
-
-let ara = [Int](repeating: 0, count: 1)
-
-isValid(s: "bcacda")
-
-func k(max: Int) {
-    
-    
-}
-
-let x: Int = Int(Character("a").asciiValue ?? 0)
-if let sc = UnicodeScalar(x) {
-    let c = Character(sc)
-}
-
-var dicts:[String:Int] = [:]
-let value = dicts["A", default: 0]
-print(dicts, value)
-let c = Character("A")
-print(c.is)
+//start vs end
+// k = counter
