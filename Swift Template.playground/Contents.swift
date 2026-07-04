@@ -5,6 +5,8 @@ import Foundation
 //    partialResult + value
 //}
 
+ 
+
 
 
 let s: String = "a"
