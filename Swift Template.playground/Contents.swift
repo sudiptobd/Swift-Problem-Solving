@@ -64,3 +64,8 @@ class Stack<T> {
     }
 }
 
+func rotate(_ nums: inout [Int], _ k: Int) {
+    let n = nums.count
+    let r = k % n
+    nums = Array(nums.suffix(from: n-r) + nums.prefix(upTo: n-r))
+}
